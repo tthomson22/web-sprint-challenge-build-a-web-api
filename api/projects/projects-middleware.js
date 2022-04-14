@@ -18,8 +18,8 @@ async function validateProjectsId(req, res, next){
 async function validateProject(req, res, next){
     const { name, description, completed } = req.body;
     try {
-        if(name && description){
-            req.valid = {name, description, completed}
+        if(name && description && typeof completed === 'boolean'){
+            req.pass = {name, description, completed}
             next()
         } else {
             next({ status:400, message: 'name and description required' })
