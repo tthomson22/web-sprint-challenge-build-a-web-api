@@ -15,6 +15,21 @@ async function validateProjectsId(req, res, next){
     }
 }
 
+async function validateProject(req, res, next){
+    const { name, description, completed } = req.body;
+    try {
+        if(name && description){
+            req.valid = {name, description, completed}
+            next()
+        } else {
+            next({ status:400, message: 'name and description required' })
+        }
+    } catch(err) {
+        next()
+    }
+}
+
 module.exports = {
     validateProjectsId,
+    validateProject
 }
