@@ -2,6 +2,10 @@
 const express = require('express');
 const Projects = require('./projects-model')
 
+const {
+    validateProjectsId,
+} = require('./projects-middleware');
+
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -12,5 +16,14 @@ router.get('/', async (req, res, next) => {
         next(err)
     }
 });
+
+router.get('/:id', validateProjectsId, async(req, res, next) => {
+    try{
+        const project = await Projects.get(req.params.id);
+        res.json(project)
+    } catch (err) {
+        next(err)
+    }
+})
 
 module.exports = router
