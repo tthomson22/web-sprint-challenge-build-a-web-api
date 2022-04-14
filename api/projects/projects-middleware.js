@@ -25,7 +25,7 @@ async function validateProject(req, res, next){
             next({ status:400, message: 'name and description required' })
         }
     } catch(err) {
-        next()
+        next(err)
     }
 }
 

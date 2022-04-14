@@ -54,4 +54,13 @@ router.delete('/:id', validateProjectsId, async(req, res, next) => {
     }
 })
 
+router.get('/:id/actions', validateProjectsId, async(req, res, next) => {
+    try {
+        const getActions = await Projects.getProjectActions(req.params.id)
+        res.json(getActions)
+    } catch(err) {
+        next(err)
+    }
+})
+
 module.exports = router
