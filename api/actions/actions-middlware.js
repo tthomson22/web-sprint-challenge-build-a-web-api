@@ -15,6 +15,21 @@ async function validateActionsId(req, res, next){
     }
 }
 
+async function validateActionInput(req, res, next) {
+    const { description, notes, project_id } = req.body
+    try{
+        if(description && notes && project_id){
+            req.pass = {project_id, description, notes}
+            next()
+        } else {
+            res.status(400).json({ message: 'a description, note, and id are required' })
+        }
+    } catch(err) {
+        next(err)
+    }
+}
+
 module.exports = {
     validateActionsId,
+    validateActionInput
 }

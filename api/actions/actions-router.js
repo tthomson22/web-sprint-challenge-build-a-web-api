@@ -4,6 +4,8 @@ const Actions = require('./actions-model');
 
 const {
     validateActionsId,
+    validateActionInput,
+    validateActionUpdate
 } = require('./actions-middlware')
 
 const router = express.Router();
@@ -25,5 +27,14 @@ router.get('/:id', validateActionsId, async(req, res, next) => {
         next(err)
     }
 })
+
+router.post('/', validateActionInput, validateActionsId, async(req, res, next) => {
+    try {
+        const newAction = await Actions.insert(req.body);
+        res.json(newAction);
+    } catch(err) {
+        next(err)
+    }
+});
 
 module.exports = router
