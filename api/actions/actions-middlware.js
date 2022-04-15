@@ -19,17 +19,34 @@ async function validateActionInput(req, res, next) {
     const { description, notes, project_id } = req.body
     try{
         if(description && notes && project_id){
-            req.pass = {project_id, description, notes}
+            req.passInput = {project_id, description, notes}
             next()
         } else {
-            res.status(400).json({ message: 'a description, note, and id are required' })
+            next({ status:400, message: 'notes and description required' })
         }
     } catch(err) {
         next(err)
     }
 }
 
+async function validateActionUpdate(req, res, next) {
+    const { description, notes, project_id, completed } = req.body
+    try{
+        if(description && notes && project_id && typeof completed === 'boolean'){
+            req.passUpdate = {project_id, description, notes, completed}
+            next()
+        } else {
+            next({ status:400, message: 'notes and description required' })
+        }
+    } catch(err) {
+        next(err)
+    }
+}
+
+
+
 module.exports = {
     validateActionsId,
-    validateActionInput
+    validateActionInput,
+    validateActionUpdate
 }
